@@ -1,0 +1,24 @@
+{
+  "name": "@obsidians/eth-components",
+  "license": "GPL-3.0",
+  "private": true,
+  "engines": {
+    "node": "16"
+  },
+  "scripts": {
+    "build": "node init.js"
+  },
+  "dependencies": {
+    "node-sass": "npm:sass"
+  },
+  "workspaces": [
+    "packages/*",
+    "../electron-components/packages/*"
+  ],
+  "devDependencies": {
+    "danger": "^11.0.2"
+  },
+  "resolutions": {
+    "rollup": "^2.68.0"
+  }
+}
