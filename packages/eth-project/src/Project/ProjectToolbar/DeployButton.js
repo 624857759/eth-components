@@ -169,6 +169,12 @@ export default class DeployerButton extends PureComponent {
     const options = {}
     networkManager.sdk?.txOptions?.list.forEach(opt => options[opt.name] = this.state[opt.name] || opt.default)
     options.args = args
+    const { obj } = parameters
+    parameters = {
+      ... parameters,
+      array: Object.keys(obj).map(item => obj[item].type === 'uint256' ? Number(obj[item].value) : obj[item].value)
+    }
+    console.log(parameters)
     return [contractObj, { parameters, amount, contractName, signer, ...options }]
   }
 
@@ -184,6 +190,11 @@ export default class DeployerButton extends PureComponent {
   }
 
   confirmDeployment = async () => {
+    if (this.state.invalidInputMsg) {
+      notification.error('格式错误', '初始化参数应为 JSON 格式')
+      return
+    }
+
     if (this.needEstimate()) {
       this.estimate()
       return
@@ -197,7 +208,7 @@ export default class DeployerButton extends PureComponent {
   }
 
   closeModal = () => {
-    this.setState({ amount: '' })
+    this.setState({ amount: '', invalidInputMsg: '' })
     this.modal.current.closeModal()
   }
 
